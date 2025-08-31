@@ -4,7 +4,8 @@ import SwiftUI
 struct NetworkedApp: App {
     var body: some Scene {
         WindowGroup {
-            CoffeeItemView()
+            CoffeeListView()
         }
     }
 }
+
