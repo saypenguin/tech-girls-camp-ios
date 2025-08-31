@@ -1,17 +1,14 @@
 import SwiftUI
 
 struct CoffeeListView: View {
-    @State private var coffees: [Coffee] = []
-
+    @State private var responses: [Item] = []
+    
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVStack(spacing: 20) {
-                    ForEach(coffees) { coffee in
-                        NavigationLink(destination: CoffeeDetailView(coffee: coffee)) {
-                            CoffeeItemView(coffee: coffee)
-                                .padding(.horizontal)
-                        }
+                    ForEach(responses) { response in
+                        CoffeeItemView(coffee: response)
                     }
                 }
                 .padding(.vertical)
@@ -20,18 +17,23 @@ struct CoffeeListView: View {
         }
         .task {
             do {
-                coffees = try await getCoffees()
+                responses = try await getCoffees()
             } catch {
                 print("Failed to fetch coffees: \(error)")
             }
         }
     }
-
-    func getCoffees() async throws -> [Coffee] {
-        guard let url = URL(string: "https://api.sampleapis.com/coffee/hot") else { return [] }
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let coffees = try JSONDecoder().decode([Coffee].self, from: data)
-        return coffees
+    
+    func getCoffees() async throws -> [Item] {
+        guard let url = URL(string: "https://www.sysbird.jp/webapi/?apikey=guest&format=json") else { return [] }
+        let (data, response) = try await URLSession.shared.data(from: url)
+        print(data)
+        print(response)
+//        let coffees = try JSONDecoder().decode(OkasinotorikoResponse.self, from: data)
+        
+        let result = try JSONDecoder().decode(OkasinotorikoResponse2.self, from: data)
+        print(result)
+        return result.item
     }
 }
 

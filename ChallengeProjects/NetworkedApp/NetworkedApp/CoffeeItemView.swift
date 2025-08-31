@@ -1,14 +1,15 @@
 import SwiftUI
 
 struct CoffeeItemView: View {
-    let coffee: Coffee
+    let coffee: Item
+    
 
     // お気に入り情報は状態が変わるため、@Stateのおまじない
     @State var isFavorite: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            AsyncImage(url: coffee.image) { phase in
+            AsyncImage(url: URL.init(string: coffee.image)!) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
@@ -30,7 +31,7 @@ struct CoffeeItemView: View {
             
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
-                    Text(coffee.title)
+                    Text(coffee.name)
                         .font(.title)
                     Spacer()
                     Button(action: {
@@ -40,17 +41,17 @@ struct CoffeeItemView: View {
                     }
                     
                 }
-                Text(coffee.description)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                HStack {
-                    ForEach(coffee.ingredients, id: \.self) { ingredient in
-                        Text(ingredient)
-                            .italic()
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .trailing)
+//                Text(coffee.type)
+//                    .font(.subheadline)
+//                    .foregroundStyle(.secondary)
+//                HStack {
+//                    ForEach(coffee.ingredients, id: \.self) { ingredient in
+//                        Text(ingredient)
+//                            .italic()
+//                            .foregroundStyle(.secondary)
+//                    }
+//                }
+//                .frame(maxWidth: .infinity, alignment: .trailing)
             }
             .foregroundColor(.white)
             .padding()
@@ -61,16 +62,13 @@ struct CoffeeItemView: View {
     }
 }
 
-#Preview {
-    let coffee1 = Coffee(
-        id: 1,
-        title: "Black Coffee",
-        description: "Svart kaffe är så enkelt som det kan bli med malda kaffebönor dränkta i hett vatten, serverat varmt.",
-        ingredients: ["Coffee"],
-        image: URL(string: "https://images.unsplash.com/photo-1494314671902-399b18174975?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")!
-    )
-
-    CoffeeItemView(coffee: coffee1)
-        .padding()
-}
+//#Preview {
+//    let coffee1 = OkasinotorikoResponse(
+//        id: 1,
+//        title: "Black Coffee",
+//        description: "Svart kaffe är så enkelt som det kan bli med malda kaffebönor dränkta i hett vatten, serverat varmt.",
+//        ingredients: ["Coffee"],
+//        image: URL(string:https://sysbird.jp/toriko/webapi/)!
+//    )
+//}
 
