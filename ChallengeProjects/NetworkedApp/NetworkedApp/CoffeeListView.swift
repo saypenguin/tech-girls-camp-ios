@@ -4,14 +4,19 @@ struct CoffeeListView: View {
     @State private var coffees: [Coffee] = []
 
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 20) {
-                ForEach(coffees) { coffee in
-                    CoffeeItemView(coffee: coffee)
-                        .padding(.horizontal)
+        NavigationStack {
+            ScrollView {
+                LazyVStack(spacing: 20) {
+                    ForEach(coffees) { coffee in
+                        NavigationLink(destination: CoffeeDetailView(coffee: coffee)) {
+                            CoffeeItemView(coffee: coffee)
+                                .padding(.horizontal)
+                        }
+                    }
                 }
+                .padding(.vertical)
             }
-            .padding(.vertical)
+            .navigationTitle("Coffees")
         }
         .task {
             do {
